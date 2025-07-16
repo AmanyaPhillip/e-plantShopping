@@ -10,6 +10,15 @@ function ProductList({ onHomeClick }) {
     const [addedToCart,setAddedToCart] = useState({});
     const cartitems = useSelector((state) => state.cart.items);
     const cartItemCount = cartitems.length;
+    // useEffect to update addedToCart based on cartitems from Redux
+    useEffect(() => {
+        const newAddedToCart = {};
+        cartitems.forEach(item => {
+            newAddedToCart[item.name] = true;
+        });
+        setAddedToCart(newAddedToCart);
+    }, [cartitems]); // Dependency array: this effect runs whenever cartitems changes
+
     const plantsArray = [
         {
             category: "Air Purifying Plants",
@@ -237,6 +246,7 @@ function ProductList({ onHomeClick }) {
         fontSize: '30px',
         textDecoration: 'none',
     }
+
 
     const handleAddToCart = (product) => {
         dispatch(addItem(product)); // Dispatch the action to add the product to the cart (Redux action)
